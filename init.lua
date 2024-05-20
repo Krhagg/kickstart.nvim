@@ -1,3 +1,30 @@
+-- function FInsertFirefoxUrl()
+--   local handle = io.popen 'sh /sh/get_firefox_url.sh'
+--   local url = handle:read '*a'
+--   handle:close()
+--   vim.api.nvim_paste(url, true, -1)
+-- end
+
+function InsertFirefoxUrl()
+  local handle = io.popen 'sh /sh/get_firefox_url.sh'
+  if handle == nil then
+    print 'Failed to run the script.'
+    return
+  end
+
+  local url = handle:read '*a'
+  handle:close()
+
+  if url == nil or url == ' ' or url == '\n' or url == '' then
+    print 'Failed to retrieve URL or clipboard is empty.'
+    return
+  end
+
+  vim.api.nvim_paste(url, true, -1)
+end
+
+vim.api.nvim_set_keymap('n', '<leader>u', ':lua InsertFirefoxUrl()<CR>', { noremap = true, silent = true })
+
 --[[
 
 =====================================================================
@@ -530,14 +557,14 @@ require('lazy').setup({
         -- clangd = {},
         -- gopls = {},
         -- pyright = {},
-        -- rust_analyzer = {},
+        rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
         -- Some languages (like typescript) have entire language plugins that can be useful:
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`tsserver`) will work just fine
-        -- tsserver = {},
+        tsserver = {},
         --
 
         lua_ls = {
@@ -644,12 +671,12 @@ require('lazy').setup({
           -- `friendly-snippets` contains a variety of premade snippets.
           --    See the README about individual language/framework/plugin snippets:
           --    https://github.com/rafamadriz/friendly-snippets
-          -- {
-          --   'rafamadriz/friendly-snippets',
-          --   config = function()
-          --     require('luasnip.loaders.from_vscode').lazy_load()
-          --   end,
-          -- },
+          {
+            'rafamadriz/friendly-snippets',
+            config = function()
+              require('luasnip.loaders.from_vscode').lazy_load()
+            end,
+          },
         },
       },
       'saadparwaiz1/cmp_luasnip',
@@ -706,9 +733,9 @@ require('lazy').setup({
 
           -- Think of <c-l> as moving to the right of your snippet expansion.
           --  So if you have a snippet that's like:
-          --  function $name($args)
-          --    $body
-          --  end
+          -- function $name($args)
+          --   $body
+          -- end
           --
           -- <c-l> will move you to the right of each of the expansion locations.
           -- <c-h> is similar, except moving you backwards.
@@ -870,5 +897,6 @@ require('lazy').setup({
   },
 })
 
+vim.api.nvim_set_keymap('n', '<leader>url', ':lua InsertFirefoxUrl()<CR>', { noremap = true, silent = true })
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et
