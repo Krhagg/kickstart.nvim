@@ -918,8 +918,5 @@ function InsertFirefoxUrl()
 end
 
 vim.api.nvim_set_keymap('n', '<leader>url', ':lua InsertFirefoxUrl()<CR>', { noremap = true, silent = true })
-
--- require('unmapped_keys').print_unmapped_keys()
-
 -- The line beneath this is called `modeline`. See `:help modeline`
 -- vim: ts=2 sts=2 sw=2 et

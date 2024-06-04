@@ -1,6 +1,9 @@
 print 'remap'
 vim.keymap.set('n', '<leader>pv', vim.cmd.Ex, { desc = 'FileExplorer' })
 vim.keymap.set('n', 'ö', ':', { desc = ':' })
+vim.keymap.set('n', 'å', '/', { desc = ':' })
+vim.keymap.set('n', 'ä', '[', { desc = ':' })
+vim.keymap.set('n', 'Ä', ']', { desc = ':' })
 vim.keymap.set('n', '<leader><C-s>', vim.cmd.w, { desc = 'Save' })
 
 -- local opts = {noremap = true, silent = true}
